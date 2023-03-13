@@ -179,7 +179,7 @@ const exportPromptTemplate = () => {
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.href = url
-  link.download = 'ChatGPTPromptTemplate.json'
+  link.download = 'PromptTemplate.json'
   link.click()
   URL.revokeObjectURL(url)
 }
