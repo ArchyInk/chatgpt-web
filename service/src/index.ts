@@ -2,6 +2,7 @@ import express from 'express'
 import type { ChatContext, ChatMessage } from './chatgpt'
 import { chatConfig, chatReplyProcess } from './chatgpt'
 import { auth } from './middleware/auth'
+import { statistics } from './middleware/statistics'
 
 const app = express()
 const router = express.Router()
@@ -45,7 +46,7 @@ router.post('/config', async (req, res) => {
   }
 })
 
-router.post('/session', async (req, res) => {
+router.post('/session',statistics, async (req, res) => {
   try {
     const AUTH_SECRET_KEY = process.env.AUTH_SECRET_KEY
     const hasAuth = typeof AUTH_SECRET_KEY === 'string' && AUTH_SECRET_KEY.length > 0

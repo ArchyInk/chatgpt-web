@@ -7,6 +7,8 @@ import fetch from 'node-fetch'
 import { sendResponse } from '../utils'
 import type { ApiModel, ChatContext, ChatGPTUnofficialProxyAPIOptions, ModelConfig } from '../types'
 
+// import {Configuration,OpenAIApi} from 'openai'
+
 const ErrorCodeMessage: Record<string, string> = {
   401: '[OpenAI] 提供错误的API密钥 | Incorrect API key provided',
   403: '[OpenAI] 服务器拒绝访问，请稍后再试 | Server refused to access, please try again later',
@@ -27,6 +29,8 @@ if (!process.env.OPENAI_API_KEY && !process.env.OPENAI_ACCESS_TOKEN)
 
 let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 
+// let openai: OpenAIApi
+
 (async () => {
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
 
@@ -42,6 +46,12 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
       debug: false,
     }
 
+    // const configuration = new Configuration({
+    //   apiKey: process.env.OPENAI_API_KEY,
+    // });
+
+    // openai = new OpenAIApi(configuration);
+
     if (process.env.OPENAI_API_BASE_URL && process.env.OPENAI_API_BASE_URL.trim().length > 0)
       options.apiBaseUrl = process.env.OPENAI_API_BASE_URL
 
@@ -54,8 +64,8 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
         return fetch(url, { agent, ...options })
       }
     }
-
     api = new ChatGPTAPI({ ...options })
+
     apiModel = 'ChatGPTAPI'
   }
   else {
